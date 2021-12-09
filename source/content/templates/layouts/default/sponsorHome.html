@@ -1,0 +1,164 @@
+{% include 'layouts/default/page.html' %}
+{% load static %}
+{% load i18n %}
+{% load bootstrap4 %}
+{% load render_table from django_tables2 %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.shaded-box {
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.6);
+	top: 75px; right: 0; bottom: 0; left: 0;
+	text-align: left;
+	height: 100%;
+	overflow-y: scroll;
+}
+.button {
+  display: block;
+  border-radius: 15px;
+  background-color: #349eeb;
+  border: none;
+  color: #f8f8f9;
+  text-shadow: 2px 2px 7px #2a2e30;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 500px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-top: 75px;
+  margin-left: 350px;
+  height: 100px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: black;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.shaded-box h1 {
+	font-size: 60px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-top: 25px;
+}
+
+.shaded-box h2 {
+	font-size: 40px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 25px;
+}
+
+.left {
+	float: left;
+	margin-left: 25px;
+}
+
+.right {
+	float: right;
+	margin-right: 25px;
+}
+
+
+.shaded-box hr {
+	border-bottom: 2px solid #61a1cf;
+	box-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 25px; margin-right: 25px;
+}
+
+.shaded-box table {
+	margin-left: 25px;
+}
+
+.shaded-box td, th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+.shaded-box th {
+	font-size: 2vw;
+	background-color: #05850e;
+	color: white;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.shaded-box tr:nth-child(even){background-color: #f2f2f2;}
+.shaded-box tr:hover {background-color: #ddd;}
+
+.shaded-box tr {
+	font-size: 20px;
+	background-color: white;
+}
+
+.shaded-box td {
+	padding-left: 10px;
+}
+
+
+
+
+
+</style>
+<div class="shaded-box">
+<div id="textbox">
+<h1 class="left" style="font-size:3vw;">Sponsor Home Page</h1>
+<h1 class="right" style="font-size:3vw;">{{user.sponsor.company_name}}</h1>
+</div>
+<div style="clear: both;"></div><hr>
+<h1 class="left" style="font-size:2vw;">Sponsor Reports - Driver Points</h1><br>
+
+	<table style="width:80%;margin-left:10%;margin-right:10%;">
+		<tr>	
+			<th>Date</th>
+			<th>Driver</th>
+			<th>Points Added</th>
+			<th>Total Points</th>
+			<th>Reason</th>
+			<th>Awarded By</th>
+		</tr>
+		{% for points in all_points %}
+		<tr>
+			<td>{{points.timestamp}}</td>
+			<td>{{points.awarded_to}}</td>
+			<td>{{points.num_points_awarded}}</td>
+			<td>{{points.new_total}}</td>
+			<td>{{points.reason}}</td>
+			<td>{{points.awarded_by}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+
+</div>
+

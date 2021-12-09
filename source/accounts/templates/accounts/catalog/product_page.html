@@ -1,0 +1,206 @@
+{% include "layouts/default/page.html" %}
+{% load static %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.shaded-box {
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.6);
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: -2;
+}
+.shaded-box2 {
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.6);
+	text-align: center;
+	height: 646px;
+	width: 75%;
+	position: fixed;
+	z-index: -2;
+	margin-top: 0px;
+	border-radius: 50px;
+	
+}
+.left {
+	float: left;
+	width: 35%;
+	height: 100%;
+}
+.right {
+	float: right;
+	width: 65%;
+	height: 100%;
+}
+.product-image-carousel {
+	position: relative;
+	height: 60%;
+	width: 80%;
+	margin-left: 10%; margin-right: 10%;
+	margin-top: 30px;
+	display: flex;
+}
+.carousel__viewport {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  overflow-x: scroll;
+  counter-reset: item;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+.img-slide {
+  position: relative;
+  background-color: #f99;
+  counter-increment: img-slide;
+  overflow: wraparound;
+  max-height: 400px; max-width: 400px;
+}
+.img-slide:before {
+	display: block;
+	text-align: center;
+	content: counter(img-slide);
+}
+.button {
+  position: absolute;
+  bottom: 0;
+  border-radius: 15px;
+  background-color: #349eeb;
+  border: none;
+  color: #40464a;
+  text-shadow: 2px 2px 7px #2a2e30;
+  text-align: center;
+  font-size: 30pt;
+  width: 400px;
+  transition: all 0.5s;
+  cursor: pointer;
+  height: 100px;
+  margin: 15px;
+  margin-left: 50px;
+  margin-top: 25px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: black;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+.back-button {
+  position: absolute;
+  bottom: 0;
+  border-radius: 15px;
+  background-color: #349eeb;
+  border: none;
+  color: #40464a;
+  text-shadow: 2px 2px 7px #2a2e30;
+  text-align: center;
+  font-size: 30pt;
+  width: 400px;
+  transition: all 0.5s;
+  cursor: pointer;
+  height: 100px;
+  margin: 15px;
+  margin-left: -450px;
+  margin-top: 25px;
+}
+
+.back-button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.back-button span:after {
+  content: '\00ab';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  transition: 0.5s;
+}
+
+.back-button:hover span {
+  padding-left: 25px;
+  color: black;
+}
+,back-button:hover span:before {opacity:0;left:0;}
+.back-button:hover span:after {
+  opacity: 1;
+  left: 0;
+}
+
+</style>
+{% load static %}
+<body><h3 style="position: fixed; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: center; font-size: 40pt;width:60%;margin-left:20%;margin-right:20%;">Points: {{request.user.num_of_points}}</h3>
+<div class="shaded-box">
+<div class="shaded-box2">
+<div class="left">
+	<div class="product-image-carousel">
+		<div class="carousel__viewport">
+		{% for img in images %}
+			{% if img.catalog_item.listing_id == item.catalog_item.listing_id %}					
+				<img class="img-slide" src="{{img.big_image_link}}">
+			{% endif %}
+		{% endfor %}
+		</div>
+	</div>
+	<h1 style="margin-top: 30px; font-size: 40pt; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: center; width:80%;margin-left:10%;margin-right:10%;">${{itemPrice}}</h1>
+	<h4 style="margin-top: 10px; font-size: 16pt; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: center; width:80%;margin-left:10%;margin-right:10%;">or</h4>
+	<h1 style="margin-top: 10px; font-size: 40pt; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: center; width:80%;margin-left:10%;margin-right:10%;">{{point_value}} Points</h1>
+
+</div>
+<div class="right">
+	<h1 style="color: white; font-size: 20pt; width:95%;margin-left:2.5%;margin-right:2.5%;margin-top:2.5%;">{{item.catalog_item.item_name}}</h1>
+	<hr style="border: 1px solid white; width: 95%; margin-left: 2.5%; margin-right: 2.5%;">
+	<h3 style="color: white; font-size: 14pt; width:95%;margin-left:2.5%;margin-right:2.5%;height:50%;overflow-y:auto;">{{item.catalog_item.item_description}}</h3>
+</div>
+</div>
+	<a href="{% url 'catalog:shop' %}"><button class="back-button"><span>Back to Catalog</span></button></a>
+	<form method="post" id="form">
+	<input type="hidden" name="catalog_item" value="{{item}}">
+	{% csrf_token %}
+	<a href=""><button class="button" type="submit"><span>Add to Cart</span></button></a><!--href="{% url 'accounts:log_in' %}"-->
+        </form>
+
+</div>
+</body>

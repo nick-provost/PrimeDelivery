@@ -1,0 +1,162 @@
+{% include "layouts/default/page.html" %}
+{% load static %}
+<style>
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.shaded-box {
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.6);
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: -2;
+}
+
+.product-cards{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: space-between;
+	width: 75%;
+	margin-left: 12.5%; margin-right: 12.5%;
+	margin-top: 30px;
+}
+.product {
+	width: 225px;
+	border: 2px solid black;
+	margin-left: 15px; margin-right: 15px; margin-top: 15px; margin-bottom: 15px;
+  	background-color: #a8acb3;
+	border-radius: 10px;
+	max-height: 400px;
+
+	transition: box-shadow .3s;
+}
+.product:hover {
+	box-shadow: 0 0 20px rgba(255,255,255,.6);
+}
+.product p {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	font-size: 12pt;
+	margin: 8px;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.product-image-carousel {
+	position: relative;
+	height: 135px;
+	width: 145px;
+	margin-left: 40px;
+	margin-top: 30px;
+}
+.carousel__viewport {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  overflow-x: scroll;
+  counter-reset: item;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  height: 135px;
+  &:hover
+    .slide:after
+}
+.img-slide {
+  position: relative;
+  background-color: #f99;
+  counter-increment: img-slide;
+  overflow: wraparound;
+}
+.img-slide:before {
+	display: block;
+	text-align: center;
+	content: counter(img-slide);
+}
+
+
+.button {
+  position: relative;
+  bottom: 0;
+  border-radius: 15px;
+  background-color: #349eeb;
+  border: none;
+  color: #40464a;
+  text-shadow: 2px 2px 7px #2a2e30;
+  text-align: center;
+  font-size: 20px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  height: 50px;
+  margin: 15px;
+  margin-left: 62px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: black;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+</style>
+<body>
+<h1 style="margin-top: 30px; font-size: 60pt; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: center;">Add to the {{request.user.sponsor.company_name}} Catalog</h1>
+<div class="shaded-box"></div>
+<section class="product-cards">
+	{% for item in listings %}
+	<form method="post" id="form">
+	<input type="hidden" name="catalog_item" value="{{item.listing_id}}">
+	{% csrf_token %}
+	<div class="product">
+		<div class="product-image-carousel">
+			<div class="carousel__viewport">
+			{% for img in imgs %}
+				{% if img.catalog_item.listing_id == item.listing_id %}					
+					  <img class="img-slide" src="{{img.image_link}}">
+				{% endif %}
+			{% endfor %}
+			</div>
+		</div>
+		<p style="height: 4.4em;">{{item.title}}</p>
+		<p style="font-size: 20pt;"><b>${{item.price}}</b></p>
+		<button class="button" type="submit"><span>Add</span></button>
+	</div>
+	</form>
+	{% endfor %}
+</section>
+</div></body>

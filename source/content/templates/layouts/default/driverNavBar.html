@@ -1,0 +1,75 @@
+{% load static %}
+{% load i18n %}
+{% load bootstrap4 %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.abs-center-x {
+	font-size: 40pt;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	font-family: montserrat;
+	
+}
+</style>
+<nav class="navbar navbar-expand-md navbar-dark bg-primary static-top" style="height: 75px;">
+
+	<a href="/" class="navbar-brand"><img src="{% static 'biggericon.png' %}" width=35 height=35></a>
+
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	<ul class="navbar-nav mr-auto">
+	{% if request.user.approval_status == "approved" %}
+		<li class="nav-link" style="font-size:1vw;">Welcome, <b>{{ request.user.username }}</b>.</li>
+		<li class="nav-item-dropdown">
+			<a class="nav-link dropdown-toggle" href="/#" id="navbardrop" data-toggle="dropdown" style="font-size:1vw;">
+				Profile
+			</a>
+			<div class="dropdown-menu" style="margin-left: 175px;font-size:1vw;">
+				<a class="dropdown-item" href="{% url 'accounts:change_password' %}">Change Password</a>
+				<a class="dropdown-item" href="{% url 'accounts:change_profile' %}">Change Profile</a>
+				<a class="dropdown-item" href="{% url 'accounts:change_email' %}">Change Email</a>
+				<a class="dropdown-item" href="{% url 'accounts:alert_settings' %}">Alerts</a>
+			</div>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link"  style="font-size:1vw;" href="{% url 'catalog:shop' %}">Catalog</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" style="font-size:1vw;" href="{% url 'accounts:apply' %}">Apply</a>		
+	{% else %}
+		<li class="nav-item">
+		    <a class="nav-link" style="font-size:1vw;" href="{% url 'accounts:sign_up' %}">{% trans 'Apply For Driver Account' %}</a>
+		</li>
+		<li class="nav-item">
+		    <a class="nav-link" style="font-size:1vw;" href="{% url 'accounts:log_in' %}">{% trans 'Log in' %}</a>
+		</li>
+	{% endif %}
+	</ul>
+
+	<ul class="nav navbar-nav abs-center-x">
+                <li class="nav-item" style="font-size:3vw;"><b>PRIME DELIVERY</b></li>
+        </ul>
+
+	<ul class="navbar-nav">
+		{% if user.username %}
+		<a href="{% url 'catalog:my_cart' request.user.username user.sponsor.company_name %}" class="navbar-brand"><img src="{% static 'cart.png' %}" width=40 height=40></a>
+		<li class="nav-item">
+		    <a class="nav-link" style="font-size:1vw;" href="{% url 'accounts:log_out' %}">{% trans 'Log out' %}</a>
+		</li>
+		{% endif %}
+		{% if request.user.approval_status == "approved" %}
+		<li class="nav-item">
+			<button type="submit" style="border: 0; background: transparent">
+				<a href="{% url 'accounts:change_profile' %}"><img src="{{ user.profile_pic }}" alt="IMG broken :(" style="max-height:35px"></a>
+			</button>
+		</li>
+		{% endif %}
+	</ul>
+</div>
+
+</nav>
+

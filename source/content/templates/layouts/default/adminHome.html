@@ -1,0 +1,236 @@
+{% include 'layouts/default/page.html' %}
+{% load static %}
+{% load i18n %}
+{% load bootstrap4 %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	overflow-y: auto;
+}
+.shaded-box {
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.6);
+	top: 75px; right: 0; bottom: 0; left: 0;
+	text-align: left;
+	height: 100%;
+	overflow-y: scroll;
+}
+.button {
+  display: block;
+  border-radius: 15px;
+  background-color: #349eeb;
+  border: none;
+  color: #f8f8f9;
+  text-shadow: 2px 2px 7px #2a2e30;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 500px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-top: 75px;
+  margin-left: 350px;
+  height: 100px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: black;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.shaded-box h1 {
+	font-size: 60px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-top: 25px;
+}
+
+.shaded-box h2 {
+	font-size: 40px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 25px;
+}
+
+.left {
+	float: left;
+	margin-left: 25px;
+}
+
+.right {
+	float: right;
+	margin-right: 25px;
+}
+
+
+.shaded-box hr {
+	border-bottom: 2px solid #61a1cf;
+	box-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 25px; margin-right: 25px;
+}
+
+.shaded-box table {
+	margin-left: 25px;
+}
+
+.shaded-box td, th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+.shaded-box th {
+	font-size: 2vw;
+	background-color: #05850e;
+	color: white;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.shaded-box tr:nth-child(even){background-color: #f2f2f2;}
+.shaded-box tr:hover {background-color: #ddd;}
+
+.shaded-box tr {
+	font-size: 20px;
+	background-color: white;
+}
+
+.shaded-box td {
+	padding-left: 10px;
+}
+
+</style>
+<div class="shaded-box">
+<h1 class="left" style="font-size:3vw;">Admin Reports</h1>
+<div style="clear: both;"></div><hr>
+
+<h1 class="left" style="font-size:2vw;">Driver Orders</h1><br>
+
+	<table style="display:block;width:80%;margin-left:10%;margin-right:10%;max-height:500px;overflow-y:scroll;">
+		<tr>	
+			<th>Date</th>
+			<th>Driver</th>
+			<th>Sponsor</th>
+			<th>Retail Price</th>
+			<th>Points Price</th>
+			<th>Order Status</th>
+		</tr>
+		{% for order in all_sales %}
+		<tr>
+			<td>{{order.last_status_change}}</td>
+			<td>{{order.ordering_driver.username}}</td>
+			<td>{{order.sponsor.company_name}}</td>
+			<td>{{order.retail_at_order}}</td>
+			<td>{{order.points_at_order}}</td>
+			<td>{{order.order_status}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+<h1 class="left" style="font-size:2vw;">Driver Applications</h1><br>
+
+	<table style="align: center;display:block;width:80%;margin-left:10%;margin-right:10%;max-height:500px;overflow-y:scroll;">
+		<tr>	
+			<th>Date</th>
+			<th>Driver</th>
+			<th>Sponsor</th>
+			<th>Status</th>
+			<th>Reason</th>
+		</tr>
+		{% for app in all_apps %}
+		<tr>
+			<td>{{app.date}}</td>
+			<td>{{app.driver.username}}</td>
+			<td>{{app.sponsor.company_name}}</td>
+			<td>{{app.status}}</td>
+			<td>{{app.reason}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+<h1 class="left" style="font-size:2vw;">Driver Points</h1><br>
+
+	<table style="display:block;width:80%;margin-left:10%;margin-right:10%;max-height:500px;overflow-y:scroll;">
+		<tr>	
+			<th>Date</th>
+			<th>Driver</th>
+			<th>Points Added</th>
+			<th>Total Points</th>
+			<th>Reason</th>
+			<th>Awarded By</th>
+		</tr>
+		{% for points in all_points %}
+		<tr>
+			<td>{{points.timestamp}}</td>
+			<td>{{points.awarded_to}}</td>
+			<td>{{points.num_points_awarded}}</td>
+			<td>{{points.new_total}}</td>
+			<td>{{points.reason}}</td>
+			<td>{{points.awarded_by}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+<h1 class="left" style="font-size:2vw;">Password Changes</h1><br>
+
+	<table style="align: center;display:block;width:80%;margin-left:10%;margin-right:10%;max-height:500px;overflow-y:scroll;">
+		<tr>	
+			<th>Date</th>
+			<th>Username</th>
+			<th>Type</th>
+		</tr>
+		{% for change in all_pass_changes %}
+		<tr>
+			<td>{{change.date}}</td>
+			<td>{{change.username}}</td>
+			<td>{{change.type}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+<h1 class="left" style="font-size:2vw;">Login Attempts</h1><br>
+
+	<table style="align: center;display:block;width:80%;margin-left:10%;margin-right:10%;max-height:500px;overflow-y:scroll;">
+		<tr>	
+			<th>Date</th>
+			<th>Username</th>
+			<th>Result</th>
+		</tr>
+		{% for attempt in all_login_attempts %}
+		<tr>
+			<td>{{attempt.date}}</td>
+			<td>{{attempt.username}}</td>
+			<td>{{attempt.result}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+</div>
+
+

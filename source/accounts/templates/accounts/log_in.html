@@ -1,0 +1,99 @@
+{% extends 'layouts/default/page.html' %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/styleLogIn.css' %}">
+<style>
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+
+}
+.hyper {
+	width:50%;
+	display: block;
+	font-size: 1.3vw;
+	position: absolute;
+	margin-left: 25%;
+}
+.shaded-box {
+	overflow-y:auto;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.7);
+	height: 85%;
+	width: 60%;
+	border-radius: 5vw;
+	text-align: center;
+}
+.shaded-box h1 {
+	margin-top: 2.5vw;
+	font-size: 5vw;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+}
+
+.shaded-box h4 {
+	text-size: 1vw;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+
+}
+.form {
+max-height:80%;
+overflow-y:auto;
+}
+.form p {
+	display: block;
+	text-align: left;
+	margin-left: 25%;
+	font-size: 18pt;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	width: 50%;
+	margin-top: .75vw;
+}
+
+.form p input {
+	float:right;
+	width: 50%;
+	height: 1.5vw;
+	margin-top:10px;
+}
+
+.form button {
+	width: 30%;
+	display: inline-block;
+	margin-left:0;
+}
+
+.form label {
+	font-size:1.5vw;
+	margin-left:0;
+}
+
+</style>
+<body>
+<div class="shaded-box">
+
+    <h1>PRIME DELIVERY</h1>
+    <h4>{% trans 'Log in' %}</h4>
+
+    <form method="post" class="form">
+
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <button class="button" style="width: 37.5%; margin-top: 0px;margin-left:31.25%;margin-right:31.25%;height:10%;font-size:1.5vw;"><span>Log In</span></button>
+    </form>
+		<a href="{% url 'accounts:sign_up' %}"><button class="button" style="width: 37.5%; margin-top:0px; margin-left:31.25%; height:10%;font-size:1.5vw;"><span>Apply For Driver Account</span></button></a>
+
+</div>
+</body>
+{% endblock %}

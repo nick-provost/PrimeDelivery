@@ -1,0 +1,191 @@
+{% load static %}
+{% load bootstrap4 %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="{{ language_code }}">
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" href="{% static 'favicon.png' %}">
+
+    <title>Prime Delivery</title>
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+</head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+
+}
+.shaded-box {
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.6);
+	top: 75px; right: 0; bottom: 0;left: 0;
+	text-align: left;
+	height: 1125px;
+}
+.shaded-box h1 {
+	font-size: 60px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-top: 25px; margin-left: 25px;
+}
+
+.shaded-box h2, form {
+	font-size: 40px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 25px;
+}
+.shaded-box form select {
+	font-size: 16pt;
+}
+.left {
+	float: left;
+	margin-left: 25px;
+}
+
+.right {
+	float: right;
+	margin-right: 25px;
+}
+
+.shaded-box hr {
+	border-bottom: 2px solid #61a1cf;
+	box-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 25px; margin-right: 25px;
+}
+
+.shaded-box table {
+	margin-left: 25px;
+}
+
+.shaded-box td, th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+.shaded-box th {
+	font-size: 30px;
+	background-color: #05850e;
+	color: white;
+	padding-right: 25px;
+	padding-left: 10px;
+}
+
+.shaded-box tr:nth-child(even){background-color: #f2f2f2;}
+.shaded-box tr:hover {background-color: #ddd;}
+
+.shaded-box tr {
+	font-size: 20px;
+	background-color: white;
+}
+
+.shaded-box td {
+	padding-left: 10px;
+}
+</style>
+
+<body>
+{% if user.type_to_revert_to == "admin" %}
+	{% include "layouts/default/adminNavBar.html" %}
+{% elif user.type_to_revert_to == "sponsor" %}
+	{% include "layouts/default/sponsorNavBar.html" %}
+{% elif user.type_to_revert_to == "driver" %}
+	{% include "layouts/default/driverNavBar.html" %}
+{% else %}
+	{% include "layouts/default/driverNavBar.html" %}
+{% endif %}
+<div class="shaded-box">
+{% if user.role_name == "sponsor" %}
+	<h1>All Drivers for {{user.sponsor.company_name}}</h1><hr>
+	<table>
+		<tr>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Username</th>
+			<th>Points</th>
+			<th>Edit Points</th>
+			<th>Drop Driver</th>
+		</tr>
+		{% for app in all_apps %}
+		<tr>
+			<td>{{app.user.first_name}}</td>
+			<td>{{app.user.last_name}}</td>
+			<td>{{app.user.username}}</td>
+
+			<td>{{app.points}}</td>
+			<td><a href="{% url 'accounts:award_points' app.user.username user.sponsor.company_name %}">Edit Points</a></td>
+			<td><a href="{% url 'accounts:drop_driver' app.user.username user.sponsor.company_name %}">Drop</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+
+{% elif user.role_name == "admin" %}
+
+	<h1>View Drivers</h1><hr>
+
+	<form style="font-size: 24pt;" method="get" action="{% url 'accounts:view_drivers' %}">
+		{{form}}
+		<input style="font-size: 16pt;" type="submit">
+	</form>
+	<table>
+		<h2> Company Name: {{sponsor_org.company_name}}</h2>
+		<tr>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Username</th>
+			<th>Points</th>
+			<th>Edit Points</th>
+			<th>Drop Driver</th>
+		</tr>
+		
+		{% for app in all_apps %}
+		{% for account in all_users_selected_sponsor %}
+		{% if app.user == account %}
+		<tr>
+			<td>{{account.first_name}}</td>
+			<td>{{account.last_name}}</td>
+			<td>{{account.username}}</td>
+			<td>{{app.points}}</td>
+			<td><a href="{% url 'accounts:award_points' account.username sponsor_org.company_name %}">Edit Points</a></td>
+			<td><a href="{% url 'accounts:drop_driver' account.username sponsor_org.company_name %}">Drop</a></td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+		{% endfor %}
+	</table>
+
+	
+
+{% endif %}
+
+
+<div class="container-fluid mt-3">
+	{% bootstrap_messages %}
+	{% block content %}
+		
+	{% endblock %}
+
+</div>
+
+<script src="{% static 'vendor/jquery/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'vendor/popper/popper.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+<script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+
+</div></body>
+</html>

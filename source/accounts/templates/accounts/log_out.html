@@ -1,0 +1,93 @@
+{% extends 'layouts/default/page.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+}
+.shaded-box {
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.6);
+	text-align: center;
+	border-radius: 25px;
+	height: 500px;
+	width: 900px;
+}
+h1 {
+	position: relative;
+	font-size: 40px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 25px; margin-top: 15px;
+}
+h2 {
+	font-size: 25px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 50px; margin-right: 50px;
+}
+.button {
+  display: block;
+  border-radius: 15px;
+  background-color: #349eeb;
+  border: none;
+  color: #40464a;
+  text-shadow: 2px 2px 7px #2a2e30;
+  text-align: center;
+  font-size: 28px;
+  width: 350px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: 275px;
+  height: 100px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: black;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+</style>
+
+<body>
+<div class="shaded-box">
+
+    <h1>Logged Out</h1>
+
+    <h2>Thanks for spending some quality time with the site today.</h2>
+
+    <p>
+        <a href="{% url 'accounts:log_in' %}"><button class="button"><span>{% trans 'Log in again' %}</span></button></a>
+    </p>
+
+</div>
+</body>
+{% endblock %}

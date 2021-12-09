@@ -1,0 +1,117 @@
+{% load static %}
+{% load i18n %}
+{% load bootstrap4 %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.abs-center-x {
+	font-size: 40pt;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	font-family: montserrat;
+	
+}
+.container input {
+	background-color: white;
+	border: 0px;
+	font-size: 16px;
+	margin-top: 4px; margin-bottom: 4px;
+}
+
+</style>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success static-top" style="height: 75px;">
+
+	<a href="{% url 'index' %}" class="navbar-brand"><img src="{% static 'biggericon.png' %}" width=35 height=35></a>
+
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	<ul class="navbar-nav mr-auto">
+	{% if request.user.is_active_account %}
+		<li class="nav-link" style="font-size:1vw;">Welcome, <b>{{ request.user.username }}</b>.</li>
+		<li class="nav-item-dropdown">
+			<a class="nav-link dropdown-toggle"  style="font-size:1vw;" href="#" id="navbardrop" data-toggle="dropdown">
+				Profile
+			</a>
+			<div class="dropdown-menu" style="margin-left: 200px;font-size:1vw;">
+				<a class="dropdown-item" href="{% url 'accounts:change_password' %}">Change Password</a>
+				<a class="dropdown-item" href="{% url 'accounts:change_profile' %}">Change Profile</a>
+				<a class="dropdown-item" href="{% url 'accounts:change_email' %}">Change Email</a>
+			</div>
+		</li>
+		<li class="nav-item-dropdown">
+			<a class="nav-link dropdown-toggle"  style="font-size:1vw;" href="#" id="navbardrop" data-toggle="dropdown">
+				Sponsor
+			</a>
+			<div class="dropdown-menu" style="margin-left: 300px;">
+				<a class="dropdown-item"  style="font-size:1vw;" href="{% url 'accounts:view_drivers' %}">View Drivers</a>
+                                <a class="dropdown-item"  style="font-size:1vw;" href="{% url 'accounts:view_applications' %}">View Applications</a>
+				<a class="dropdown-item"  style="font-size:1vw;" href="{% url 'catalog:browse' %}">Add To Your Catalog</a>
+				<a class="dropdown-item"  style="font-size:1vw;" href="{% url 'catalog:my_catalog' %}">View Catalog</a>
+				<a class="dropdown-item"  style="font-size:1vw;" href="{% url 'accounts:change_point_ratio' %}">Change Point Ratio</a>
+
+                        </div>
+		</li>
+
+		
+	{% else %}
+		<li class="nav-item">
+		    <a class="nav-link"  style="font-size:1vw;" href="{% url 'accounts:sign_up' %}">{% trans 'Create Driver Account' %}</a>
+		</li>
+		<li class="nav-item">
+		    <a class="nav-link"  style="font-size:1vw;" href="{% url 'accounts:log_in' %}">{% trans 'Log in' %}</a>
+		</li>
+		<li class="nav-item">
+		    <a class="nav-link"  style="font-size:1vw;" href="{% url 'admin:index' %}">Log In as Admin</a>
+		</li>
+	{% endif %}
+	</ul>
+
+	<ul class="nav navbar-nav abs-center-x">
+                <li class="nav-item" style="font-size:3vw;"><b>PRIME DELIVERY</b></li>
+        </ul>
+
+	<ul class="navbar-nav">
+		<li class="nav-link" style="font-size:1vw;">Viewing as: <b>{{ user.viewing_as }}</b></li>
+		<li class="nav-item-dropdown">
+			<a class="nav-link dropdown-toggle"  style="font-size:1vw;" href="#" id="navbardrop" data-toggle="dropdown">
+				Change View
+			</a>
+			<div class="dropdown-menu" style="left: 75%;">
+				{% if user.role_name == "sponsor" and user.viewing_as == "sponsor" %}
+            				<form action="{% url 'accounts:swap_type' %}" method="POST">
+                			{% csrf_token %}
+                			<div class="container">
+                    				<input id="top" type="submit" name="swapToDriver" value="View as Driver" title="Swap View"></input>
+                			</div>
+            				</form>
+        			{% elif user.role_name == "driver" and user.viewing_as == "driver" and user.type_to_revert_to == "sponsor" %}
+            				<form action="{% url 'accounts:swap_type' %}" method="POST">
+                			{% csrf_token %}
+                			<div class="container">
+                    				<input id="top" type="submit" name="swapBack" value="View as Yourself" title="Swap View"></input>
+                			</div>
+            				</form>
+        			{% endif %}
+			</div>
+		</li>
+
+		{% if request.user.is_authenticated %}
+		<li class="nav-item">
+		    <a class="nav-link" style="font-size:1vw;" href="{% url 'accounts:log_out' %}">{% trans 'Log out' %}</a>
+		</li>
+		<li class="nav-item">
+
+			<button type="submit" style="border: 0; background: transparent">
+				<a href="{% url 'accounts:change_profile' %}"><img src="{{ user.profile_pic }}" alt="IMG broken :(" style="max-height:35px"></a>
+			</button>
+		</li>
+		{% endif %}
+	</ul>
+</div>
+
+</nav>
+

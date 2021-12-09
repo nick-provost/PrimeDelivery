@@ -1,0 +1,130 @@
+{% extends 'layouts/default/page.html' %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+}
+.shaded-box {
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.6);
+	top: 75px; right: 0; left: 0;
+	text-align: left;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: -2;
+
+}
+.shaded-box h1 {
+	font-size: 60px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-top: 25px; margin-left: 25px;
+}
+
+.shaded-box h2, form {
+	font-size: 40px;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 25px;
+}
+
+.left {
+	float: left;
+	margin-left: 25%;
+}
+
+.right {
+	float: right;
+	margin-right: 25%;
+}
+
+.shaded-box hr {
+	border-bottom: 2px solid #61a1cf;
+	box-shadow: 2px 2px 5px #3d7ead;
+	margin-left: 25px; margin-right: 25px;
+}
+
+.button {
+  float: center;
+  display: block;
+  border-radius: 15px;
+  background-color: #349eeb;
+  border: none;
+  color: #40464a;
+  text-shadow: 2px 2px 7px #2a2e30;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 30%;
+  margin-left: 35%;
+  margin-right: 35%;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-top: 25px;
+  height: 75px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: black;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+.form {
+	width: 60%;
+	margin-left: 20%;
+	margin-right: 20%;
+	font-size: 24pt;
+}
+.form select, input {
+	float: right;
+	width: 600px;
+	height: 50px;
+	font-size: 24pt;
+}
+</style>
+
+
+<div class="shaded-box" style="overflow-y: scroll;">
+    <h1 style="text-align: center;">Change Point Ratio - {{request.user.sponsor.company_name}}</h1>
+	<div id="box">
+    <form method="post" class="form">
+	<p>Current Point Ratio: {{point_ratio}}</p>
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <button class="button" style="width: 37.5%; margin-top: 0px;margin-left:31.25%;margin-right:31.25%;height:10%;font-size:1.5vw;"><span>Change</span></button>
+    </form>
+
+	</div>
+	<div style="clear:both;"></div>
+    </div>
+{% endblock %}

@@ -1,0 +1,254 @@
+{% include "layouts/default/page.html" %}
+{% load static %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.shaded-box {
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.6);
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: -2;
+}
+.cart-items {
+	float: left;
+	left: 32.5%;
+	top: 55%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.7);
+	text-align: center;
+	height: 700px;
+	width: 60%;
+	position: fixed;
+	z-index: -2;
+	margin-top: 30px;
+	border-radius: 50px;
+	overflow-y: auto;
+	display: flex;
+	flex-wrap: wrap;
+
+}
+.summary {
+	float: right;
+	right: -10%;
+	top: 55%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-size: 40pt;
+	position: absolute;
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.7);
+	text-align: center;
+	height: 700px;
+	width: 30%;
+	position: fixed;
+	z-index: -2;
+	margin-top: 30px;
+	border-radius: 50px;
+	overflow-y: auto;
+}
+.product {
+	width: 95%;
+	margin-left: 2.5%;
+	right: 2.5%;
+	margin-top: 5%;
+	height: 175px;
+	display: flex;
+}
+.product-image-carousel {
+	position: relative;
+	height: 75%;
+	width: 17.5%;
+	margin-left: 12.5px;
+	margin-top: 12.5px;
+	float: left;
+}
+.item-info {
+	align: center;
+	text-align: center;
+	width: 80%;
+	margin-right: 10%;
+}
+.carousel__viewport {
+  position: absolute;
+  height: 150px;
+  width: 150px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  overflow-x: scroll;
+  counter-reset: item;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+.img-slide {
+  position: relative;
+  background-color: #f99;
+  counter-increment: img-slide;
+  overflow: wraparound;
+  width: 150px;
+  height: 150px;
+}
+.img-slide:before {
+	display: block;
+	text-align: center;
+	content: counter(img-slide);
+}
+.left {
+	float: left;
+	width: 40%;
+	margin-left: 20%;
+	height:80px;
+}
+.right {
+	float: right;
+	width: 50%;
+	margin-right: -10%;
+	margin-left: -5%;
+}
+.calculations {
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+.calculations th {
+	color: white;
+	font-size: 12pt;
+}
+.calculations td {
+	color: white;
+	font-size: 10pt;
+}
+.button {
+  position: relative;
+  bottom: 0;
+  border-radius: 15px;
+  background-color: #349eeb;
+  border: none;
+  color: #40464a;
+  text-shadow: 2px 2px 7px #2a2e30;
+  text-align: center;
+  font-size: 20px;
+  width: 50%;
+  transition: all 0.5s;
+  cursor: pointer;
+  height: 75px;
+  margin: 15px;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: black;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+</style>
+{% load static %}
+<body><h3 style="float:right; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: right; font-size: 2vw; margin-right:30px;margin-top:10px;">Points: {{request.user.num_of_points}}</h3>
+<div class="shaded-box"><h1 style="margin-top: 75px; font-size: 3vw; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: center;">Your Cart</h1>
+<section class="cart-items">
+	{% for item in items %}
+	<div class="product">
+		<div class="product-image-carousel">
+			<div class="carousel__viewport">
+			{% for image in images %}
+				{% if image.catalog_item.listing_id == item.item.catalog_item.listing_id %}
+					<img src="{{image.image_link}}">
+				{% endif %}
+			{% endfor %}
+			</div>
+		</div>
+		<div class="item-info">
+			<p style="color: white; font-size: 20pt;margin-left:15%;max-height:2.8em;overflow:hidden;">{{item.item.catalog_item.item_name}}</h1>
+			<hr style="border: 1px solid white; margin-left: 15%;">
+			<div class="left">
+				<p style="text-align: left;font-size: 20pt;color:white;margin-left: 20%;margin-bottom:0;">Quantity: {{item.quantity}}</p>
+				<a role="button" class="button" style="padding: 8px; margin-left: 15%; margin-top: 15px;margin-bottom:25px;height:75px;" href="/catalog/product-page/{{item.item.catalog_item.listing_id}}"><span>View Item</span></a>
+			</div>
+			<div class="right">
+				<p style="text-align: left;font-size:20pt;color:white;margin-bottom:0;">Price Per: {{item.item.point_value}} points</p>
+				<form method="post" id="removeForm">
+				<input type="hidden" name="cart_item" value="{{item}}">
+				{% csrf_token %}
+				<div class="left">
+				<a role="button" class="button" style="float:left;margin-left:-60%;width:150px;margin-top: 30px;max-height:40px;" href="/catalog/RemoveFromCart/{{item.item.catalog_item.listing_id}}/1"><span>Remove x1</span></a>
+				</div>
+				<div class="right">
+				<a role="button" class="button" style="float:right;margin-right:50%;width:150px;margin-top: 30px;max-height:40px;" href="/catalog/RemoveFromCart/{{item.item.catalog_item.listing_id}}/{{item.quantity}}"><span>Remove All</span></a>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</section>
+<section class="summary">
+	<h3 style="width: 80%; margin-left: 10%; margin-right: 10%; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: center; font-size: 40pt; margin-top:10px;">Cart Summary</h3>
+	<hr style="border-bottom: 2px solid #61a1cf; box-shadow: 2px 2px 5px #3d7ead; width:80%; margin-left: 10%; margin-right: 10%;">
+	<div class="calculations">
+	<table style="width:100%">
+		<tr>
+			<th>Item</th>
+			<th>Qty</th>
+			<th></th>
+			<th>Price</th>
+			<th></th>
+			<th>Total</th>
+		</tr>
+		{% for item in items %}
+		<tr>
+			<td>{{item.item.catalog_item.item_name}}</td>
+			<td>{{item.quantity}}</td>
+			<td>x</td>
+			<td>{{item.item.point_value}}</td>
+			<td>=</td>
+			<td>{{item.total_cost}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	</div>
+	<hr style="border-bottom: 2px solid #61a1cf; box-shadow: 2px 2px 5px #3d7ead; width:80%; margin-left: 10%; margin-right: 10%;">
+	<h3 style="width: 30%; margin-left: 10%; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: center; font-size: 40pt; margin-top:10px;float:left;">Total: </h3>
+	<h3 style="width: 50%; margin-right: 10%; color: #61a1cf; text-shadow: 2px 2px 5px #3d7ead; text-align: center; font-size: 30pt; margin-top:22.5px;float:right;">{{total}} Points</h3>
+	<button class="button"><span><a href="{% url 'catalog:confirmPurchase' request.user.username user.sponsor.company_name %}" style="color:black;">Confirm Purchase</a></span></button>
+</section>
+</div></body>

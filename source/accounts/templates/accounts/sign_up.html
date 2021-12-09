@@ -1,0 +1,117 @@
+{% extends 'layouts/default/page.html' %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+
+<style>
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.shaded-box {
+
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.7);
+	height: 85%;
+	width: 60%;
+	border-radius: 5vw;
+	text-align: center;
+}
+.shaded-box h1 {
+	margin-top: 2.5vw;
+	font-size: 5vw;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+}
+
+.shaded-box h4 {
+	text-size: 1vw;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+
+}
+.form {
+max-height:80%;
+overflow-y:auto;
+}
+.form p {
+	display: block;
+	text-align: left;
+	margin-left: 25%;
+	font-size: 18pt;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	width: 50%;
+	margin-top: .75vw;
+}
+
+.form p input {
+	float:right;
+	width: 55%;
+	height: 100%;
+}
+
+.form button {
+	width: 30%;
+	display: inline-block;
+	margin-left: 25%;
+}
+.form ul {
+	display:block;
+	max-height: 2.25vw;
+	overflow: auto;
+	margin-top: -2vw;
+	width:30%;
+	margin-left:45%;
+}
+.form ul li {
+	align:left;
+	display:block;
+	float:left;
+	max-height: 35px;
+}
+.form ul li label {
+	float:right;
+	width: 100%;
+	height: 100%;
+	font-size: 1vw;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+	margin-top:0px;
+
+}
+.form ul li label input {
+	float:left;
+	height:1vw;
+	width:1vw;
+	margin-top:5px;
+}
+</style>
+<body>
+<div class="shaded-box">
+
+    <h1>PRIME DELIVERY</h1>
+    <h4>{% trans 'Driver Account Application' %}</h4>
+
+    <form method="post" class="form">
+
+        {% csrf_token %}
+        {{form.as_p}}
+
+	<button class="button" style="width:30%; float: left; margin-top: 1vw; margin-left: 17%;"><span>Apply</span></button>
+
+    </form>
+
+    <a href="{% url 'accounts:log_in' %}"><button class="button" style="margin-left:55%; margin-top: -9%; width:30%;"><span>Return To Log In</span></button></a>
+
+</div>
+</body>
+{% endblock %}
+

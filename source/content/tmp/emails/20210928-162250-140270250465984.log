@@ -1,0 +1,54 @@
+Content-Type: multipart/alternative;
+ boundary="===============3034198252474671783=="
+MIME-Version: 1.0
+Subject: Change email
+From: test@example.com
+To: equotecakir@gmail.com
+Date: Tue, 28 Sep 2021 21:22:50 -0000
+Message-ID: 
+ <163286417054.162554.14247727490409901657@ip-172-31-24-191.us-east-2.compute.internal>
+
+--===============3034198252474671783==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+
+
+To change your current email address, please follow the link:
+
+http://3.143.9.243:8000/accounts/change/email/9D1n2d0ru1LeRiOIdE2X/
+
+--===============3034198252474671783==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Change email</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+
+<p>
+    To change your current email address, please follow the link:
+</p>
+
+<p>
+    <a href="http://3.143.9.243:8000/accounts/change/email/9D1n2d0ru1LeRiOIdE2X/">http://3.143.9.243:8000/accounts/change/email/9D1n2d0ru1LeRiOIdE2X/</a>
+</p>
+
+</body>
+
+</html>
+
+--===============3034198252474671783==--
+
+-------------------------------------------------------------------------------

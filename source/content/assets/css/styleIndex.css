@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+	background-image: url("{% static 'truckerbg.jpg' %}");
+}
+
+.shaded-box {
+	font-size: 40pt;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-family: montserrat;
+	background-color: rgba(0,0,0,.7);
+	height: 65%;
+	width: 65%;
+	border-radius: 50px;
+	text-align: center;
+}
+
+.button {
+  display: block;
+  border-radius: 15px;
+  background-color: #349eeb;
+  border: none;
+  color: #40464a;
+  text-shadow: 2px 2px 7px #2a2e30;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 500px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-top: 75px;
+  margin-left: 350px;
+  height: 100px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: black;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.shaded-box h1 {
+	margin-top: 4vw;
+	font-size: 5vw;
+	color: #61a1cf;
+	text-shadow: 2px 2px 5px #3d7ead;
+}
